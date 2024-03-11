@@ -5,6 +5,8 @@ triangle(N, NthTriangle):-
 	triangle(New, Triangle),
 	NthTriangle is Triangle + N.
 	
+% triangle(4, X), !.
+
 list_length([]     , 0 ).
 list_length([_|Xs] , L ) :- list_length(Xs,N) , L is N+1 .
  
@@ -21,12 +23,43 @@ doted([Head1|Tail1], [Head2|Tail2], Head3):-
 	doted(Tail1, Tail2, T),
 	Head3 is T + H.
 	
-polynom(X) :- atomic(X), !, true.
-polynom(X + Y) :- !, polynom(X), polynom(Y).
-polynom(X - Y) :- !, polynom(X), polynom(Y).
-polynom(Coeff * Var^Exp) :- number(Coeff), atom(Var), integer(Exp), Exp >= 0, Coeff \= 0.
+% dot([2,2,2], [2,2,2], Result).
+	
+% polynom(X) :- atomic(X), !, true.
+% polynom(X + Y) :- !, polynom(X), polynom(Y).
+% polynom(X - Y) :- !, polynom(X), polynom(Y).
+% polynom(Coeff * Var^Exp) :- !, number(Coeff), atom(Var), integer(Exp), Exp >= 0, Coeff \= 0.
+% polynom(Coeff * Var) :- !, number(Coeff), atom(Var), Coeff \= 0.
+% polynom(Var^Exp) :- !, atom(Var), integer(Exp), Exp >= 0.
 
+polynom(_*X^E1 + _*Y^E2) :- format("polynom(_*X^E1 + _*Y^E2): X=~w Y=~w E1=~w E2=~w~n",[X,Y,E1,E2]), !, polynom(X), polynom(Y),E1>E2,E1>= 0,E2>= 0.
+polynom(_*X^E1 - _*Y^E2) :- format("polynom(_*X^E1 - _*Y^E2): X=~w Y=~w E1=~w E2=~w~n",[X,Y,E1,E2]),!, polynom(X), polynom(Y),E1>E2,E1>= 0,E2>= 0.
+polynom(_*X^E1 + _*Y) :- format("polynom(_*X^E1 + _*Y): X=~w Y=~w E1=~w~n",[X,Y,E1]),!, polynom(X), polynom(Y),E1>= 0.
+polynom(_*X^E1 - _*Y) :- format("polynom(_*X^E1 - _*Y): X=~w Y=~w E1=~w~n",[X,Y,E1]),!, polynom(X), polynom(Y),E1>= 0.
 
+polynom(X^E1 + _*Y^E2) :- format("polynom(X^E1 + _*Y^E2): X=~w Y=~w E1=~w E2=~w~n",[X,Y,E1,E2]), !, polynom(X), polynom(Y),E1>E2,E1>= 0,E2>= 0.
+polynom(X^E1 - _*Y^E2) :- format("polynom(X^E1 - _*Y^E2): X=~w Y=~w E1=~w E2=~w~n",[X,Y,E1,E2]),!, polynom(X), polynom(Y),E1>E2,E1>= 0,E2>= 0.
+polynom(X^E1 + _*Y) :- format("polynom(X^E1 + _*Y): X=~w Y=~w E1=~w~n",[X,Y,E1]),!, polynom(X), polynom(Y),E1>= 0.
+polynom(X^E1 - _*Y) :- format("polynom(X^E1 - _*Y): X=~w Y=~w E1=~w~n",[X,Y,E1]),!, polynom(X), polynom(Y),E1>= 0.
+
+polynom(_*X^E1 + Y^E2) :- format("polynom(_*X^E1 + Y^E2): X=~w Y=~w E1=~w E2=~w~n",[X,Y,E1,E2]), !, polynom(X), polynom(Y),E1>E2,E1>= 0,E2>= 0.
+polynom(_*X^E1 - Y^E2) :- format("polynom(_*X^E1 - Y^E2): X=~w Y=~w E1=~w E2=~w~n",[X,Y,E1,E2]),!, polynom(X), polynom(Y),E1>E2,E1>= 0,E2>= 0.
+polynom(_*X^E1 + Y) :- format("polynom(_*X^E1 + Y): X=~w Y=~w E1=~w~n",[X,Y,E1]),!, polynom(X), polynom(Y),E1>= 0.
+polynom(_*X^E1 - Y) :- format("polynom(_*X^E1 - Y): X=~w Y=~w E1=~w~n",[X,Y,E1]),!, polynom(X), polynom(Y),E1>= 0.
+
+polynom(X^E1 + Y^E2) :- format("polynom(X^E1 + Y^E2): X=~w Y=~w E1=~w E2=~w~n",[X,Y,E1,E2]), !, polynom(X), polynom(Y),E1>E2,E1>= 0,E2>= 0.
+polynom(X^E1 - Y^E2) :- format("polynom(X^E1 - Y^E2): X=~w Y=~w E1=~w E2=~w~n",[X,Y,E1,E2]),!, polynom(X), polynom(Y),E1>E2,E1>= 0,E2>= 0.
+polynom(X^E1 + Y) :- format("polynom(X^E1 + Y): X=~w Y=~w E1=~w~n",[X,Y,E1]),!, polynom(X), polynom(Y),E1>= 0.
+polynom(X^E1 - Y) :- format("polynom(X^E1 - Y): X=~w Y=~w E1=~w~n",[X,Y,E1]),!, polynom(X), polynom(Y),E1>= 0.
+
+polynom(Coeff * Var) :- format("polynom(Coeff * Var): Coeff=~w Var=~w~n",[Coeff, Var]),polynom(Var), number(Coeff), atom(Var), Coeff \= 0.
+
+polynom(X + Y) :- format("polynom(X + Y): X=~w Y=~w~n",[X, Y]), !, polynom(X), polynom(Y).
+polynom(X - Y) :- format("polynom(X - Y): X=~w Y=~w~n",[X, Y]), !, polynom(X), polynom(Y).
+
+polynom(X) :- format("polynom(X): X=~w~n",[X]),atomic(X), !, true.
+
+% polynom(2*x^3 + x).
 
 combination(_, 0, []).
 combination([X|T], K, [X|Combination]) :-
@@ -64,24 +97,3 @@ exponent(N, P, E) :-
         exponent(N1, P, E1),
         E is E1 + 1
     ).
-	
-polynomize(X):- atomic(X), !, true.
-polynomize(X + Y):- !, polynomize(X), polynomize(Y).
-polynomize(X - Y):- !, polynomize(X), polynomize(Y).
-polynomize(X * Y):- !, polynomize(X), polynomize(Y).
-polynomize(Coeff * Var^Exp) :- number(Coeff), atom(Var), integer(Exp), Exp >= 0, Coeff \= 0.
-
-
-polynomize(Coeff * Var^Exp,Coeff,Var,Exp) :-
-	number(Coeff), atom(Var), integer(Exp), Exp >= 0, Coeff \= 0.
-
-
-polynomize((X) * (Y), Poly):-
-	polynomize(X,Coeff,Var,Exp),
-	polynomize(Y,Coeff1,Var1,Exp1),
-	Coeff1 * Coeff,
-	Var=Var1,
-	EXP is (Exp+Exp+1),
-	format('Coeff: ~w, Var: ~w, Exp: ~w~n',[Coeff,Var,Exp]),
-	format('Coeff1: ~w, Var1: ~w, Exp1: ~w~n',[Coeff1,Var1,Exp1]).
-	%findall( P + Q , (between(2, Num, P), is_prime(P), exponent(Num, P, E), E\=0), Factors).
